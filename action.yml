@@ -1,0 +1,29 @@
+name: Fastforge package
+description: Package your any app into OS-specific bundles.
+author: LiJianying
+inputs:
+  platform:
+    description: "Whether to package for platform"
+    required: true
+  target:
+    description: "Whether to package for target"
+    required: true
+  channel:
+    description: "Whether to package for channel"
+    required: false
+  artifact-name:
+    description: ""
+    required: false
+  build-args:
+    description: ""
+    required: false
+runs:
+  using: composite
+  steps:
+    - run: dart pub global activate -sgit https://github.com/leanflutter/flutter_distributor.git --git-path packages/any_app_packager
+      shell: bash
+    - run: |
+        package-any-app \
+          --platform '${{ inputs.platform }}' \
+          --target '${{ inputs.target }}'
+      shell: bash
